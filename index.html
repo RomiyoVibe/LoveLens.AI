@@ -175,6 +175,24 @@
             transform: scale(1.02);
         }
 
+        .ad-notice {
+            background: rgba(255, 182, 193, 0.3);
+            padding: 10px 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-size: 0.9em;
+            text-align: center;
+            border: 1px dashed var(--pink-2);
+            display: none;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .ad-notice i {
+            color: var(--pink-3);
+            margin-right: 5px;
+        }
+
         footer {
             margin-top: auto;
             padding: 20px;
@@ -197,7 +215,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <script type='text/javascript' src='//pl26221290.effectiveratecpm.com/d0/f6/5f/d0f65fa66ee9b13575e7398a278af74a.js'></script>
-    <body>
+<body>
     <h1>LoveLens AI 💖</h1>
     <p>Upload your chat screenshot and discover your love story! ✨</p>
     
@@ -230,6 +248,11 @@
         <button class="share-btn" onclick="downloadReport()">Download HD Report Image</button>
     </div>
 
+    <div class="ad-notice" id="adNotice">
+        <i class="fas fa-hand-pointer"></i> 
+        Please click on the ad below to support us, then come back to generate your love report!
+    </div>
+
     <footer>
         Made with ❤️ | Not affiliated with any messaging app
     </footer>
@@ -244,6 +267,7 @@
         const loading = document.getElementById('loading');
         const reportCard = document.getElementById('reportCard');
         const reportDateElem = document.getElementById('reportDate');
+        const adNotice = document.getElementById('adNotice');
 
         // Upload Handlers
         uploadZone.addEventListener('click', () => fileInput.click());
@@ -564,6 +588,28 @@
                 alert("Error generating report. Please try again!");
             });
         }
+
+        // Ad visibility check
+        function checkAdVisibility() {
+            const adElement = document.querySelector('[id*="effective-rate"]');
+            
+            if (adElement) {
+                const rect = adElement.getBoundingClientRect();
+                const isVisible = (
+                    rect.top >= 0 &&
+                    rect.left >= 0 &&
+                    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+                );
+                
+                adNotice.style.display = isVisible ? 'block' : 'none';
+            }
+        }
+
+        // Run check on load and scroll
+        window.addEventListener('load', checkAdVisibility);
+        window.addEventListener('scroll', checkAdVisibility);
+        window.addEventListener('resize', checkAdVisibility);
     </script>
 </body>
 </html>
